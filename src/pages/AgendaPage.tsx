@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, CalendarPlus, ChevronDown, ChevronLeft, ChevronRight, Clock3, Pencil, XCircle } from "lucide-react";
+import { CalendarPlus, ChevronDown, ChevronLeft, ChevronRight, Clock3, Pencil, XCircle } from "lucide-react";
 import type { Appointment, Patient } from "../types";
 import { formatDate, getAppointmentsForDate } from "../services/demoService";
 import { todayKey } from "../data/demoData";
@@ -12,7 +12,7 @@ export function AgendaPage({ appointments, patients, onEdit, onNew, onCancel }: 
   const [date, setDate] = useState(todayKey);
   const [mode, setMode] = useState<"Día" | "Semana">("Semana");
   const [filter, setFilter] = useState("todos");
-  const days = useMemo(() => mode === "Día" ? [date] : Array.from({ length: 7 }, (_, index) => plusDays(date, index - new Date(date + "T12:00:00").getDay() + 1)), [date, mode]);
+  const days = useMemo(() => mode === "Día" ? [date] : Array.from({ length: 7 }, (_, index) => plusDays(date, index - ((new Date(date + "T12:00:00").getDay() + 6) % 7))), [date, mode]);
   const shown = appointments.filter((appointment) => appointment.status !== "cancelado" && (filter === "todos" || appointment.status === filter));
   const name = (patientId: string) => patients.find((patient) => patient.id === patientId)?.name || "Paciente de demo";
   const move = (days: number) => setDate(plusDays(date, days));
