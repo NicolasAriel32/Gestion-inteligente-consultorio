@@ -1,39 +1,59 @@
-# MVP de Gestión Inteligente Consultorio
+# Gestión Inteligente — Psicología
 
-## Usuario principal
+## Objetivo
 
-Profesional independiente de psicología que necesita ordenar su agenda, mantener los datos de contacto de sus pacientes y recibir solicitudes de turnos sin intercambiar tantos mensajes.
+Diseñar la primera fase visual de una aplicación SaaS para psicólogos independientes en Argentina, apta para una demostración comercial desde celular y computadora.
 
-## Problema que resuelve
+## Fase 1: interfaz y navegación
 
-Centralizar en una vista simple los próximos turnos, los datos administrativos mínimos y las nuevas solicitudes de reserva.
+Incluye cinco pantallas navegables:
 
-## Alcance de esta demostración
+1. **Dashboard privado de demo:** turnos del día, próximas sesiones, solicitudes pendientes y acciones rápidas.
+2. **Agenda:** calendario diario/semanal, filtro de estados, crear/editar/cancelar turnos y validación visual de superposiciones.
+3. **Pacientes:** buscador, alta/edición de datos administrativos y ficha con historial de citas.
+4. **Configuración:** perfil profesional, duración, modalidad, días/horarios y slug de la página pública.
+5. **Reservas públicas:** perfil profesional, servicios, calendario de días habilitados, horarios disponibles y formulario de solicitud.
 
-1. **Agenda:** vista diaria, navegación entre días y turnos con hora, modalidad, tipo y estado.
-2. **Pacientes:** búsqueda por nombre o email, datos de contacto y próximo turno.
-3. **Reservas online:** vista previa de una futura página pública y formulario de solicitud simulado dentro del prototipo. Las solicitudes quedan pendientes hasta una confirmación humana.
-4. **Persistencia de demo:** los turnos agregados se guardan en el almacenamiento local del navegador actual.
-5. **Diseño adaptable:** interfaz de escritorio y navegación móvil.
+Las acciones usan estado en memoria de la pestaña. Una confirmación en pantalla siempre identifica que pertenece a la demo; no significa que haya sido enviada a un servidor.
 
-## Criterios de aceptación del prototipo
+## Datos y privacidad
 
-- Se puede navegar entre Inicio, Agenda, Pacientes y Reservas online.
-- Se puede crear un turno desde la agenda con nombre, tipo, fecha y horario.
-- En la vista de reservas se puede simular una solicitud y verla como pendiente.
-- Una solicitud nueva también aparece en el directorio de pacientes.
-- El buscador filtra los pacientes por nombre o correo electrónico.
-- Los turnos creados permanecen en el mismo navegador después de recargar.
-- La interfaz informa que utiliza datos ficticios y no debe recibir datos reales.
+- Nombres y datos de contacto ficticios reservados para demostración.
+- No hay historia clínica, diagnósticos, notas terapéuticas ni tratamientos.
+- No hay autenticación ni backend; el panel privado es una representación visual y no debe recibir datos reales.
+- La ruta pública muestra solamente el perfil profesional ficticio, servicios y disponibilidad de demo. No recibe el listado de pacientes ni expone citas privadas.
+- Los cambios se pierden al recargar y no se sincronizan entre dispositivos.
 
-## Fuera de alcance
+## Criterios de aceptación de fase 1
 
-- Historia clínica, diagnósticos, notas de sesión, evaluaciones, tratamientos y recetas.
-- Pagos, facturación, videollamadas e integración con WhatsApp.
-- Inicio de sesión, roles, base de datos remota y sincronización entre dispositivos.
-- Publicación de una página pública real para reservas; el enlace de la demo no acepta solicitudes externas.
-- Confirmación automática de solicitudes.
+- Se navega por dashboard, agenda, pacientes, configuración y la ruta pública.
+- Crear y editar una cita actualiza la agenda durante la sesión.
+- La validación de demo impide turnos superpuestos según fecha, hora y duración.
+- La vista semanal ofrece filtros por estado y una alternativa vacía cuando no hay turnos.
+- La ficha administrativa permite crear, editar y consultar datos de contacto e historial de citas.
+- La configuración permite modificar los días y horarios que aparecen en la página pública.
+- La solicitud pública deja elegir servicio, fecha, horario, modalidad y datos básicos, y muestra explícitamente que es una simulación local.
+- La disponibilidad no ofrece días u horarios que estén deshabilitados u ocupados en la demo.
+- Las pantallas usan diseño responsive, foco visible, campos etiquetados, estados accesibles y botones con áreas táctiles cómodas.
+- Se presentan estados de carga, vacío, error y éxito.
 
-## Límites de seguridad del prototipo
+## No incluido en fase 1
 
-La app no tiene backend ni controles de acceso. Los datos se almacenan localmente en el navegador y pueden ser vistos por otras personas con acceso al mismo dispositivo o perfil. Usar solo información ficticia hasta implementar autenticación, autorización, almacenamiento seguro, respaldo y revisión de privacidad.
+- Persistencia real, autenticación, API, base de datos o sincronización.
+- Confirmaciones por email, WhatsApp u otra integración.
+- Historias clínicas, diagnósticos, pagos y facturación.
+- Seguridad productiva, aislamiento multiusuario y auditoría.
+
+## Plan posterior
+
+### Fase 2 · Reservas funcionales
+
+Persistencia, disponibilidad real, altas, cancelaciones y reprogramaciones.
+
+### Fase 3 · Seguridad y validación
+
+Autenticación, aislamiento por profesional, pruebas, revisión de privacidad y corrección de errores.
+
+### Fase 4 · Demo comercial
+
+Publicación controlada, perfil ficticio y pruebas desde dos dispositivos.
