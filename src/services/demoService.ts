@@ -1,4 +1,4 @@
-import type { Appointment, AppointmentStatus, Patient, ProfessionalSettings } from "../types";
+import type { Appointment, AppointmentStatus, AvailabilityEntry, Patient, ProfessionalSettings } from "../types";
 
 export type DemoState = {
   patients: Patient[];
@@ -20,13 +20,13 @@ export function getAppointmentsForDate(appointments: Appointment[], date: string
     .sort((a, b) => a.startTime.localeCompare(b.startTime));
 }
 
-export function getAvailableSlots(state: DemoState, date: string) {
+export function getAvailableSlots(settings: ProfessionalSettings, occupiedSlots: AvailabilityEntry[], date: string) {
   const day = new Date(date + "T12:00:00").getDay();
-  if (!state.professional.workingDays.includes(day)) return [];
-  return state.professional.workingHours.filter((slot) => !validateAppointment(state.appointments, {
+  if (!settings.workingDays.includes(day)) return [];
+  return settings.workingHours.filter((slot) => !validateAppointment(occupiedSlots as Appointment[], {
     date,
     startTime: slot,
-    durationMinutes: state.professional.sessionDuration,
+    durationMinutes: settings.sessionDuration,
   }));
 }
 
