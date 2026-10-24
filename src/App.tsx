@@ -172,7 +172,7 @@ function App() {
           </div>
         </header>
 
-        {section === "inicio" && <Dashboard appointments={todaysAppointments} selectedDate={selectedDate} setDate={setSelectedDate} openAppointment={() => setModal("appointment")} goTo={goTo} />}
+        {section === "inicio" && <Dashboard appointments={todaysAppointments} selectedDate={selectedDate} setDate={setSelectedDate} openAppointment={() => setModal("appointment")} goTo={goTo} patientCount={patients.length} bookingEnabled={bookingEnabled} />}
         {section === "agenda" && <Agenda appointments={todaysAppointments} selectedDate={selectedDate} setDate={setSelectedDate} openAppointment={() => setModal("appointment")} />}
         {section === "pacientes" && <Patients patients={patients} query={query} setQuery={setQuery} onAdd={() => setModal("appointment")} />}
         {section === "reservas" && <Bookings enabled={bookingEnabled} setEnabled={setBookingEnabled} onCopy={copyBookingLink} copied={copied} openBooking={() => setModal("booking")} appointments={appointments.filter((a) => a.source === "Online")} />}
@@ -200,16 +200,16 @@ function DateSwitch({ value, setDate }: { value: string; setDate: (date: string)
   return <div className="date-switch"><button aria-label="Día anterior" onClick={() => move(-1)}><ChevronLeft size={17} /></button><span>{dateLabel(value)}</span><button aria-label="Día siguiente" onClick={() => move(1)}><ChevronRight size={17} /></button><button className="today-button" onClick={() => setDate(todayKey)}>Hoy</button></div>;
 }
 
-function Dashboard({ appointments, selectedDate, setDate, openAppointment, goTo }: { appointments: Appointment[]; selectedDate: string; setDate: (date: string) => void; openAppointment: () => void; goTo: (section: Section) => void }) {
+function Dashboard({ appointments, selectedDate, setDate, openAppointment, goTo, patientCount, bookingEnabled }: { appointments: Appointment[]; selectedDate: string; setDate: (date: string) => void; openAppointment: () => void; goTo: (section: Section) => void; patientCount: number; bookingEnabled: boolean }) {
   const pending = appointments.filter((item) => item.status === "Pendiente").length;
   return (
     <div className="content">
-      <PageHeading eyebrow={prettyDate(selectedDate, { weekday: "long", day: "numeric", month: "long" }).toUpperCase()} title="Buen día, Martina" subtitle="Este es el resumen de tu consultorio para hoy." action={<button className="button-primary" onClick={openAppointment}><Plus size={17} /> Nuevo turno</button>} />
+      <PageHeading eyebrow={prettyDate(selectedDate, { weekday: "long", day: "numeric", month: "long" }).toUpperCase()} title="Buen día, Martina" subtitle="Este es el resumen de tu consultorio para la fecha seleccionada." action={<button className="button-primary" onClick={openAppointment}><Plus size={17} /> Nuevo turno</button>} />
       <div className="stats-grid">
-        <StatCard label="Turnos del día" value={String(appointments.length).padStart(2, "0")} note="en tu agenda" icon={<CalendarDays size={18} />} color="green" trend="4 confirmados" />
+        <StatCard label="Turnos del día" value={String(appointments.length).padStart(2, "0")} note="en tu agenda" icon={<CalendarDays size={18} />} color="green" trend={`${appointments.filter((item) => item.status === "Confirmado").length} confirmados`} />
         <StatCard label="Solicitudes online" value={String(pending).padStart(2, "0")} note="requieren tu atención" icon={<Clock3 size={18} />} color="orange" trend="Ver solicitudes" onClick={() => goTo("reservas")} />
-        <StatCard label="Pacientes activos" value="38" note="en tu consultorio" icon={<UsersRound size={18} />} color="purple" trend="+3 este mes" />
-        <StatCard label="Disponibilidad" value="Abierta" note="reservas online" icon={<Activity size={18} />} color="blue" trend="Configurar" onClick={() => goTo("reservas")} />
+        <StatCard label="Pacientes activos" value={String(patientCount).padStart(2, "0")} note="en tu consultorio" icon={<UsersRound size={18} />} color="purple" trend="en la demo" />
+        <StatCard label="Disponibilidad" value={bookingEnabled ? "Abierta" : "Pausada"} note="reservas online" icon={<Activity size={18} />} color="blue" trend="Configurar" onClick={() => goTo("reservas")} />
       </div>
       <section className="panel agenda-panel">
         <div className="panel-heading">
