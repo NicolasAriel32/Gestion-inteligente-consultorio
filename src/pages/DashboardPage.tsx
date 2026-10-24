@@ -1,4 +1,5 @@
 import { ArrowRight, CalendarClock, CalendarPlus, CheckCircle2, Clock3, UsersRound } from "lucide-react";
+import type { ReactNode } from "react";
 import type { Appointment, Patient } from "../types";
 import { formatDate, getAppointmentsForDate } from "../services/demoService";
 import { todayKey } from "../data/demoData";
@@ -41,7 +42,7 @@ export function DashboardPage({ appointments, patients, onGoAgenda, onNewAppoint
   </div>;
 }
 
-export function Metric({ icon, label, value, caption, tone, onClick }: { icon: React.ReactNode; label: string; value: string; caption: string; tone: "green" | "sand" | "lavender" | "blue"; onClick?: () => void }) {
+export function Metric({ icon, label, value, caption, tone, onClick }: { icon: ReactNode; label: string; value: string; caption: string; tone: "green" | "sand" | "lavender" | "blue"; onClick?: () => void }) {
   const t = { green: "bg-[#e7f0e9] text-deep", sand: "bg-[#f4e9df] text-[#795d47]", lavender: "bg-[#eeeaf4] text-[#6d6280]", blue: "bg-[#e9eff2] text-[#506c77]" };
   return <button onClick={onClick} className="rounded-2xl border border-line bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep"><div className="flex items-center justify-between"><span className="text-sm text-muted">{label}</span><span className={`grid h-10 w-10 place-items-center rounded-xl ${t[tone]}`}>{icon}</span></div><p className="mt-3 font-display text-3xl font-semibold tracking-tight">{value}</p><p className="mt-1 text-xs text-muted">{caption}</p></button>;
 }
@@ -52,6 +53,6 @@ export function AppointmentBadge({ status }: { status: Appointment["status"] }) 
   return <Badge tone={tone}>{label}</Badge>;
 }
 
-export function EmptyBlock({ title, detail, action }: { title: string; detail: string; action?: React.ReactNode }) {
+export function EmptyBlock({ title, detail, action }: { title: string; detail: string; action?: ReactNode }) {
   return <div className="grid min-h-56 place-items-center px-6 py-10 text-center"><div><span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-[#eef3ee] text-deep"><CalendarClock size={22} /></span><h3 className="mt-4 font-display font-semibold">{title}</h3><p className="mx-auto mt-1 max-w-sm text-sm text-muted">{detail}</p>{action && <div className="mt-4">{action}</div>}</div></div>;
 }
