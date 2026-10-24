@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CalendarDays, Mail, Phone, Search, UserRound, X } from "lucide-react";
+import { Mail, Phone, Search, UserRound, X } from "lucide-react";
 import type { Appointment, Patient } from "../types";
 import { formatDate } from "../services/demoService";
 import { AppointmentBadge } from "./DashboardPage";
