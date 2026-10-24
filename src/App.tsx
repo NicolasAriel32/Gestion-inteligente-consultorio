@@ -64,14 +64,14 @@ export default function App() {
     setData((current) => setDemoStatus(current, id, "confirmado"));
     setToast({ kind: "success", message: "Turno marcado como confirmado en la demo." });
   };
-  const createPatient = (patient: Patient) => {
-    setData((current) => ({ ...current, patients: [...current.patients, patient] }));
-    setToast({ kind: "success", message: "Paciente agregado a la demo; no se guardó en un servidor." });
+  const savePatient = (patient: Patient) => {
+    setData((current) => ({ ...current, patients: current.patients.some((item) => item.id === patient.id) ? current.patients.map((item) => item.id === patient.id ? patient : item) : [...current.patients, patient] }));
+    setToast({ kind: "success", message: "Datos administrativos actualizados solo en la demo." });
   };
-  const requestPublicAppointment = ({ name, email, phone, date, time, modality }: { name: string; email: string; phone: string; date: string; time: string; modality: "Presencial" | "Virtual" }) => {
+  const requestPublicAppointment = ({ name, email, phone, date, time, modality, service }: { name: string; email: string; phone: string; date: string; time: string; modality: "Presencial" | "Virtual"; service: string }) => {
     const existing = data.patients.find((item) => item.email.toLowerCase() === email.toLowerCase());
     const patient: Patient = existing || { id: `public-${Date.now()}`, name, email, phone: phone || "No informado", createdAt: date };
-    const appointment: Appointment = { id: `booking-${Date.now()}`, patientId: patient.id, date, startTime: time, durationMinutes: data.professional.sessionDuration, service: "Sesión individual", modality, status: "pendiente", source: "Reserva pública" };
+    const appointment: Appointment = { id: `booking-${Date.now()}`, patientId: patient.id, date, startTime: time, durationMinutes: data.professional.sessionDuration, service, modality, status: "pendiente", source: "Reserva pública" };
     const conflict = validateAppointment(data.appointments, appointment);
     if (conflict) {
       setToast({ kind: "error", message: "Ese horario acaba de ocuparse en esta demo. Elegí otro." });
@@ -86,7 +86,7 @@ export default function App() {
     {booting ? <LoadingState /> : <>
     {section === "dashboard" && <DashboardPage appointments={data.appointments} patients={data.patients} onGoAgenda={() => setSection("agenda")} onNewAppointment={() => setAppointmentDialog({ open: true })} onOpenPublic={openPublic} onConfirm={confirmAppointment} />}
     {section === "agenda" && <AgendaPage appointments={data.appointments} patients={data.patients} onNew={(date) => setAppointmentDialog({ open: true, date })} onEdit={(appointment) => setAppointmentDialog({ open: true, appointment })} onCancel={cancelAppointment} />}
-    {section === "pacientes" && <PatientsPage patients={data.patients} appointments={data.appointments} onCreate={createPatient} />}
+    {section === "pacientes" && <PatientsPage patients={data.patients} appointments={data.appointments} onSave={savePatient} />}
     {section === "configuracion" && <SettingsPage settings={data.professional} onSave={(professional) => { setData((current) => updateDemoSettings(current, professional)); setToast({ kind: "success", message: "Configuración actualizada en esta demo." }); }} onPublic={openPublic} />}
     <AppointmentDialog open={appointmentDialog.open} appointment={appointmentDialog.appointment} date={appointmentDialog.date} data={data} onClose={() => setAppointmentDialog({ open: false })} onSave={saveAppointment} />
     {toast && <div role={toast.kind === "error" ? "alert" : "status"} className={`fixed bottom-20 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-xl bg-ink px-4 py-3 text-sm text-white shadow-soft lg:bottom-6 ${toast.kind === "error" ? "bg-[#8a4039]" : ""}`}><CheckCircle2 size={17} />{toast.message}</div>}
