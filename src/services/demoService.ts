@@ -23,7 +23,7 @@ export function getAppointmentsForDate(appointments: Appointment[], date: string
 export function getAvailableSlots(settings: ProfessionalSettings, occupiedSlots: AvailabilityEntry[], date: string) {
   const day = new Date(date + "T12:00:00").getDay();
   if (!settings.workingDays.includes(day)) return [];
-  return settings.workingHours.filter((slot) => !validateAppointment(occupiedSlots as Appointment[], {
+  return settings.workingHours.filter((slot) => !validateAppointment(occupiedSlots, {
     date,
     startTime: slot,
     durationMinutes: settings.sessionDuration,
@@ -31,7 +31,7 @@ export function getAvailableSlots(settings: ProfessionalSettings, occupiedSlots:
 }
 
 export function validateAppointment(
-  appointments: Appointment[],
+  appointments: AvailabilityEntry[],
   candidate: Pick<Appointment, "date" | "startTime" | "durationMinutes">,
   ignoredId?: string,
 ) {
