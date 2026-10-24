@@ -80,7 +80,7 @@ export default function App() {
     setData((current) => ({ ...saveDemoAppointment(current, appointment), patients: existing ? current.patients : [...current.patients, patient] }));
   };
 
-  if (publicPage) return <PublicBookingPage settings={data.professional} appointments={data.appointments} onBack={backToPanel} onRequest={requestPublicAppointment} />;
+  if (publicPage) return <PublicBookingPage settings={data.professional} busySlots={data.appointments.map(({ date, startTime, durationMinutes, status }) => ({ date, startTime, durationMinutes, status }))} onBack={backToPanel} onRequest={requestPublicAppointment} />;
 
   return <WorkspaceShell section={section} onNavigate={setSection} onOpenPublic={openPublic}>
     {booting ? <LoadingState /> : <>
