@@ -52,14 +52,14 @@ export function saveDemoAppointment(state: DemoState, appointment: Appointment):
   if (conflict) throw new Error(conflict);
   return {
     ...state,
-    appointments: [...state.appointments.filter((item) => item.id !== appointment.id), appointment],
+    appointments: [...state.appointments.filter((item) => item.id !== appointment.id), { ...appointment, reminderVersion: state.appointments.some(item=>item.id===appointment.id) ? (state.appointments.find(item=>item.id===appointment.id)?.reminderVersion || 1) + 1 : 1 }],
   };
 }
 
 export function setDemoStatus(state: DemoState, id: string, status: AppointmentStatus): DemoState {
   return {
     ...state,
-    appointments: state.appointments.map((appointment) => appointment.id === id ? { ...appointment, status } : appointment),
+    appointments: state.appointments.map((appointment) => appointment.id === id ? { ...appointment, status, reminderVersion: (appointment.reminderVersion || 1) + 1 } : appointment),
   };
 }
 

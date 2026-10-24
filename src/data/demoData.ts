@@ -23,11 +23,11 @@ export const demoProfessional: ProfessionalSettings = {
 };
 
 export const demoPatients: Patient[] = [
-  { id: "p1", name: "Sofía Martínez", email: "sofia.demo@example.com", phone: "+54 9 11 0000-0001", createdAt: dateOffset(-42) },
-  { id: "p2", name: "Tomás Benítez", email: "tomas.demo@example.com", phone: "+54 9 11 0000-0002", createdAt: dateOffset(-35) },
-  { id: "p3", name: "Valentina López", email: "valentina.demo@example.com", phone: "+54 9 11 0000-0003", createdAt: dateOffset(-18) },
-  { id: "p4", name: "Mateo Fernández", email: "mateo.demo@example.com", phone: "+54 9 11 0000-0004", createdAt: dateOffset(-9) },
-  { id: "p5", name: "Lucía Romero", email: "lucia.demo@example.com", phone: "+54 9 11 0000-0005", createdAt: dateOffset(-4) },
+  { id: "p1", name: "Sofía Martínez", email: "sofia.demo@example.com", phone: "+54 9 11 0000-0001", reminderPreferences: { email: true, whatsapp: true, version: 1 }, createdAt: dateOffset(-42) },
+  { id: "p2", name: "Tomás Benítez", email: "tomas.demo@example.com", phone: "+54 9 11 0000-0002", reminderPreferences: { email: true, whatsapp: true, version: 1 }, createdAt: dateOffset(-35) },
+  { id: "p3", name: "Valentina López", email: "valentina.demo@example.com", phone: "+54 9 11 0000-0003", reminderPreferences: { email: true, whatsapp: true, version: 1 }, createdAt: dateOffset(-18) },
+  { id: "p4", name: "Mateo Fernández", email: "mateo.demo@example.com", phone: "+54 9 11 0000-0004", reminderPreferences: { email: true, whatsapp: true, version: 1 }, createdAt: dateOffset(-9) },
+  { id: "p5", name: "Lucía Romero", email: "lucia.demo@example.com", phone: "+54 9 11 0000-0005", reminderPreferences: { email: true, whatsapp: true, version: 1 }, createdAt: dateOffset(-4) },
 ];
 
 export const demoAppointments: Appointment[] = [

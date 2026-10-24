@@ -56,3 +56,19 @@ Desde Nuevo turno se puede previsualizar una serie semanal o quincenal de 2 a 24
 - [Dos revisiones y resultados](docs/research/RECURRENCE_VERIFICATION.md)
 
 Pruebas: `npm run test:recurrence`.
+
+## Recordatorios de sesión
+
+Prototipo en memoria disponible en Configuración y desde cada cita de Agenda. Permite uno o dos avisos, permisos por canal, vista previa neutra, reloj simulado, reintentos limitados y resultados ficticios. No envía email ni WhatsApp.
+
+- [Especificación independiente](docs/REMINDERS_SPEC.md)
+- [Investigación, fuentes y bloqueo de REA](docs/research/REMINDERS_REA_REPORT.md)
+- [Verificación automatizada y recorrido en navegador](docs/research/REMINDERS_VERIFICATION.md)
+
+```bash
+npm run test:reminders
+npm run test:recurrence
+npm run build
+```
+
+`npm test` ejecuta ambas suites. Para demostrar: configurar avisos, crear una cita confirmada con paciente ficticio habilitado, adelantar el reloj hasta un aviso, presionar “Procesar vencidos” y luego “Resolver simulaciones”. Los resultados se seleccionan por canal. Recargar restablece toda la demo.

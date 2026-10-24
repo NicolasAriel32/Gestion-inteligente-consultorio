@@ -4,6 +4,7 @@ export type Modality = "Presencial" | "Virtual";
 export type Appointment = {
   id: string;
   patientId: string;
+  reminderVersion?: number;
   seriesId?: string;
   occurrenceIndex?: number;
   date: string;
@@ -21,6 +22,7 @@ export type Patient = {
   email: string;
   phone: string;
   createdAt: string;
+  reminderPreferences?: { email: boolean; whatsapp: boolean; version: number };
 };
 export type ProfessionalSettings = {
   name: string;

@@ -1,0 +1,65 @@
+{
+  "historicalCommit": "a17f28e9ab44d34a24840cff70082470d775b9b1",
+  "files": [
+    {
+      "path": "packages/features/ee/workflows/lib/reminders/reminderScheduler.ts",
+      "blob": "02df5ad46b79a82489442a6e1e1fbf69f43841dd",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/reminders/emailReminderManager.ts",
+      "blob": "4742bd63961d88544cfeb226568facd7cffc2767",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/reminders/whatsappReminderManager.ts",
+      "blob": "af458c662314f69b6f8012fd12a7df444db2194d",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/scheduleBookingReminders.ts",
+      "blob": "048c7d520d86dfa9b21dca425528ba79ab234247",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/repositories/WorkflowReminderRepository.ts",
+      "blob": "c626479eda05274abceface4ee451cc91b2d8e9f",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/api/scheduleEmailReminders.ts",
+      "blob": "cb8e26c3c8dfca64433d55ac3f3c702651f5d7aa",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/prisma/schema.prisma",
+      "blob": "86a550d252913b8228fea8b4a68c104759d64bb2",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/LICENSE",
+      "blob": "a8c6744758303a74c18b8e4decd6058f747acb53",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/service/WorkflowService.ts",
+      "blob": "169184b6890df844676da7fd87e073a67c78da1a",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/service/EmailWorkflowService.ts",
+      "blob": "dae2f68e744d7f291bf48b9e1e52ae2c4938ea45",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/getWorkflowReminders.ts",
+      "blob": "5a967f278be81733a6ee38f3b5231957216e5c41",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    },
+    {
+      "path": "packages/features/ee/workflows/lib/scheduleWorkflowNotifications.ts",
+      "blob": "3429dc58cc4a30dcf8a60231ce722ba892adaa5a",
+      "commit": "a17f28e9ab44d34a24840cff70082470d775b9b1"
+    }
+  ]
+}

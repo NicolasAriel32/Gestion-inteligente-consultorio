@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:recurrence": "node --test scripts/test-recurrence.cjs"
+    "test:recurrence": "node --test scripts/test-recurrence.cjs",
+    "test:reminders": "node --test scripts/test-reminders.cjs",
+    "test": "npm run test:recurrence && npm run test:reminders"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.5",
