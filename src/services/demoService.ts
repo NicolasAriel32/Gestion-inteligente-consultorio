@@ -23,11 +23,11 @@ export function getAppointmentsForDate(appointments: Appointment[], date: string
 export function getAvailableSlots(state: DemoState, date: string) {
   const day = new Date(date + "T12:00:00").getDay();
   if (!state.professional.workingDays.includes(day)) return [];
-  const occupied = new Set(
-    getAppointmentsForDate(state.appointments, date)
-      .map((appointment) => appointment.startTime),
-  );
-  return state.professional.workingHours.filter((slot) => !occupied.has(slot));
+  return state.professional.workingHours.filter((slot) => !validateAppointment(state.appointments, {
+    date,
+    startTime: slot,
+    durationMinutes: state.professional.sessionDuration,
+  }));
 }
 
 export function validateAppointment(
@@ -49,10 +49,8 @@ export function validateAppointment(
 export function saveDemoAppointment(state: DemoState, appointment: Appointment): DemoState {
   const conflict = validateAppointment(state.appointments, appointment, appointment.id);
   if (conflict) throw new Error(conflict);
-  const exists = state.patients.some((patient) => patient.id === appointment.patientId);
   return {
     ...state,
-    patients: exists ? state.patients : [...state.patients, { id: appointment.patientId, name: "Nueva solicitud", email: "", phone: "", createdAt: appointment.date }],
     appointments: [...state.appointments.filter((item) => item.id !== appointment.id), appointment],
   };
 }
