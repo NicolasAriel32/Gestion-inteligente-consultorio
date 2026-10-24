@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { Activity, ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, Clock3, MapPin, MonitorPlay, ShieldCheck } from "lucide-react";
 import type { Appointment, ProfessionalSettings } from "../types";
 import type { DemoState } from "../services/demoService";
@@ -20,7 +21,7 @@ export function PublicBookingPage({ settings, appointments, onBack, onRequest }:
   const [error,setError] = useState("");
   const [success,setSuccess] = useState(false);
   const slots = getAvailableSlots(state,date);
-  const submit = (event: React.FormEvent) => {
+  const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!name.trim() || !email.trim() || !time) { setError("Completá tus datos y elegí un horario disponible."); return; }
     if (appointments.some((item) => item.date === date && item.startTime === time && item.status !== "cancelado")) { setError("Ese horario acaba de ocuparse en esta demo. Elegí otro."); setTime(""); return; }
