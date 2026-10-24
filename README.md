@@ -1,17 +1,22 @@
-# Gestión Inteligente Consultorio
+# Gestión Inteligente — Psicología
 
-Prototipo comercial para consultorios de psicología. Esta primera versión presenta la agenda, administra datos básicos de pacientes y permite simular una solicitud de turno online. La reserva pública real todavía no está conectada.
+Prototipo visual para demostraciones comerciales de gestión de turnos para psicólogos independientes en Argentina.
 
-## Alcance del MVP
+## Fase actual: interfaz y navegación
 
-- Agenda diaria con turnos y estados.
-- Fichas administrativas mínimas de pacientes.
-- Flujo de solicitud de turnos online simulado con disponibilidad de ejemplo.
-- Datos de demostración ficticios y persistencia en el navegador.
+- Dashboard privado de demostración con próximos turnos y solicitudes pendientes.
+- Agenda diaria y semanal con filtros; crear, editar, confirmar y cancelar turnos en memoria.
+- Directorio de pacientes con búsqueda, alta, edición y ficha administrativa con historial de citas.
+- Configuración del perfil, duración, modalidad, días y horarios de atención.
+- Página pública de reservas con selección de servicio, fecha, horario y modalidad.
+- Componentes reutilizables con Tailwind CSS, Radix UI y patrones visuales de shadcn/ui.
+- Datos completamente ficticios; no hay historia clínica ni notas terapéuticas.
 
-No incluye historias clínicas, diagnósticos, notas de sesión, pagos ni teleconsultas. No cargues datos reales de pacientes: la demo guarda su información en el almacenamiento local del navegador y no cuenta con servidor, autenticación ni sincronización.
+## Importante sobre esta demo
 
-## Desarrollo local
+Los cambios viven únicamente en la memoria de la pestaña y se pierden al recargar. No hay backend, base de datos, autenticación, sincronización ni reservas enviadas a un servidor. El panel no está protegido por login. No uses datos reales de pacientes ni compartas el enlace como un sistema operativo. La página pública solo muestra perfil profesional y disponibilidad de demostración; no muestra el directorio ni la información del panel.
+
+## Ejecutar localmente
 
 Requiere Node.js 20 o superior.
 
@@ -20,17 +25,24 @@ npm install
 npm run dev
 ```
 
-Para generar la versión estática:
+Build local:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Publicación
+## Rutas de la demo
 
-La app está preparada como frontend estático y puede desplegarse en Vercel conectando este repositorio. La integración con una base de datos y reservas compartidas entre dispositivos queda para una fase posterior, después de validar el flujo con profesionales.
+- `/`: panel de demostración.
+- `/reservar/martina-rios`: vista pública de reserva.
 
-## Estado
+La configuración de Vercel reescribe `/reservar/*` hacia la aplicación estática para que la ruta pública pueda abrirse directamente.
 
-Inicio del prototipo. La especificación y las decisiones de producto se irán registrando en `docs/MVP.md`.
+## Fases siguientes
+
+1. **Reservas funcionales:** persistencia, disponibilidad real, creación, cancelación y reprogramación.
+2. **Seguridad y validación:** autenticación, aislamiento por profesional, protección de datos y pruebas.
+3. **Demo comercial:** publicación controlada y validación desde dos dispositivos.
+
+No avanzar con backend productivo hasta aprobar el diseño de esta fase.
