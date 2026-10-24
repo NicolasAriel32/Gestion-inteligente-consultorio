@@ -1,3 +1,6 @@
+import { useReminderDemo } from "./hooks/useReminderDemo";
+import { ReminderCenter } from "./reminders/ReminderCenter";
+import type { Channel } from "./reminders/types";
 import { applySeries, planSeries, type SeriesPlan } from "./services/recurrence";
 import { useEffect, useState } from "react";
 import { CheckCircle2, Plus, TriangleAlert } from "lucide-react";
@@ -17,6 +20,8 @@ const initialDemo: DemoState = { patients: demoPatients, appointments: demoAppoi
 
 export default function App() {
   const [data, setData] = useState<DemoState>(initialDemo);
+  const reminders = useReminderDemo(data);
+  const [reminderAppointmentId,setReminderAppointmentId] = useState<string | null>(null);
   const [booting, setBooting] = useState(true);
   const [section, setSection] = useState<Section>("dashboard");
   const [publicPage, setPublicPage] = useState(() => window.location.pathname.startsWith("/reservar"));
@@ -75,9 +80,23 @@ export default function App() {
     setToast({ kind: "success", message: "Turno marcado como confirmado en la demo." });
   };
   const savePatient = (patient: Patient) => {
-    setData((current) => ({ ...current, patients: current.patients.some((item) => item.id === patient.id) ? current.patients.map((item) => item.id === patient.id ? patient : item) : [...current.patients, patient] }));
+    setData(current => {
+      const previous = current.patients.find(item=>item.id===patient.id);
+      const contactChanged = previous && (previous.email!==patient.email || previous.phone!==patient.phone);
+      const preferences = previous?.reminderPreferences || {email:false,whatsapp:false,version:1};
+      const saved = {...previous,...patient,reminderPreferences:{...preferences,version:preferences.version + (contactChanged?1:0)}};
+      return {...current,patients:previous?current.patients.map(item=>item.id===patient.id?saved:item):[...current.patients,saved]};
+    });
     setToast({ kind: "success", message: "Datos administrativos actualizados solo en la demo." });
   };
+  const updateReminderPreference = (id:string,channel:Channel,allowed:boolean) => {
+    setData(current=>({...current,patients:current.patients.map(patient=>{
+      if(patient.id!==id)return patient;
+      const before=patient.reminderPreferences || {email:false,whatsapp:false,version:1};
+      return {...patient,reminderPreferences:{...before,[channel]:allowed,version:before.version+1}};
+    })}));
+  };
+  const reminderPanel = (id?:string) => <ReminderCenter controller={reminders} appointments={data.appointments} patients={data.patients} onPreference={updateReminderPreference} appointmentId={id} onCancel={cancelAppointment} onEdit={appointment=>{setReminderAppointmentId(null);setAppointmentDialog({open:true,appointment});}} />;
   const requestPublicAppointment = ({ name, email, phone, date, time, modality, service }: { name: string; email: string; phone: string; date: string; time: string; modality: "Presencial" | "Virtual"; service: string }) => {
     const existing = data.patients.find((item) => item.email.toLowerCase() === email.toLowerCase());
     const patient: Patient = existing || { id: `public-${Date.now()}`, name, email, phone: phone || "No informado", createdAt: date };
@@ -95,9 +114,10 @@ export default function App() {
   return <WorkspaceShell section={section} onNavigate={setSection} onOpenPublic={openPublic}>
     {booting ? <LoadingState /> : <>
     {section === "dashboard" && <DashboardPage appointments={data.appointments} patients={data.patients} onGoAgenda={() => setSection("agenda")} onNewAppointment={() => setAppointmentDialog({ open: true })} onOpenPublic={openPublic} onConfirm={confirmAppointment} />}
-    {section === "agenda" && <AgendaPage appointments={data.appointments} patients={data.patients} onNew={(date) => setAppointmentDialog({ open: true, date })} onEdit={(appointment) => setAppointmentDialog({ open: true, appointment })} onCancel={cancelAppointment} />}
+    {section === "agenda" && <AgendaPage appointments={data.appointments} patients={data.patients} onNew={(date) => setAppointmentDialog({ open: true, date })} onEdit={(appointment) => setAppointmentDialog({ open: true, appointment })} onCancel={cancelAppointment} onReminders={id=>setReminderAppointmentId(id)} />}
     {section === "pacientes" && <PatientsPage patients={data.patients} appointments={data.appointments} onSave={savePatient} />}
-    {section === "configuracion" && <SettingsPage settings={data.professional} onSave={(professional) => { setData((current) => updateDemoSettings(current, professional)); setToast({ kind: "success", message: "Configuración actualizada en esta demo." }); }} onPublic={openPublic} />}
+    {section === "configuracion" && <><SettingsPage settings={data.professional} onSave={(professional) => { setData((current) => updateDemoSettings(current, professional)); setToast({ kind: "success", message: "Configuración actualizada en esta demo." }); }} onPublic={openPublic} />{reminderPanel()}</>}
+    <Modal open={reminderAppointmentId!==null} onOpenChange={open=>!open&&setReminderAppointmentId(null)} title="Recordatorios de esta cita" description="Simulación local de programación y resultados.">{reminderAppointmentId&&reminderPanel(reminderAppointmentId)}</Modal>
     <AppointmentDialog open={appointmentDialog.open} appointment={appointmentDialog.appointment} date={appointmentDialog.date} data={data} onClose={() => setAppointmentDialog({ open: false })} onSave={saveAppointment} onSaveSeries={saveSeries} />
     {toast && <div role={toast.kind === "error" ? "alert" : "status"} className={`fixed bottom-20 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-xl bg-ink px-4 py-3 text-sm text-white shadow-soft lg:bottom-6 ${toast.kind === "error" ? "bg-[#8a4039]" : ""}`}><CheckCircle2 size={17} />{toast.message}</div>}
     </>}
