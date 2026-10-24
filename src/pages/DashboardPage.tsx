@@ -1,3 +1,4 @@
+import { ProfessionalAvatar } from "../components/ProfessionalAvatar";
 import { ArrowRight, CalendarClock, CalendarPlus, CheckCircle2, Clock3, UsersRound } from "lucide-react";
 import type { ReactNode } from "react";
 import type { Appointment, Patient } from "../types";
@@ -11,7 +12,7 @@ export function DashboardPage({ appointments, patients, onGoAgenda, onNewAppoint
   const upcoming = [...appointments].filter((item) => item.status !== "cancelado").sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime)).slice(0, 4);
   const patientName = (id: string) => patients.find((patient) => patient.id === id)?.name || "Paciente de demostración";
   return <div>
-    <PageTitle eyebrow={formatDate(todayKey, { weekday: "long", day: "numeric", month: "long" })} title="Buen día, Martina" description="Tu jornada, tus próximas sesiones y las solicitudes nuevas." action={<Button onClick={onNewAppointment}><CalendarPlus size={17} /> Agendar turno</Button>} />
+    <div className="mb-6 flex items-center gap-4 rounded-2xl border border-line bg-white p-5"><ProfessionalAvatar className="h-20 w-20 sm:h-24 sm:w-24" /><div><p className="text-xs font-semibold uppercase tracking-wider text-deep">Tu espacio profesional</p><h2 className="mt-1 text-lg font-semibold">Dra. Martina Ríos</h2><p className="mt-1 text-sm text-muted">Psicóloga · Perfil ficticio de demostración</p></div></div><PageTitle eyebrow={formatDate(todayKey, { weekday: "long", day: "numeric", month: "long" })} title="Buen día, Martina" description="Tu jornada, tus próximas sesiones y las solicitudes nuevas." action={<Button onClick={onNewAppointment}><CalendarPlus size={17} /> Agendar turno</Button>} />
     <div className="mb-6 rounded-xl border border-sage/70 bg-[#eef4ef] px-4 py-3 text-sm text-[#405f50]"><strong>Demo visual:</strong> los cambios viven solo en esta sesión y se reinician al recargar. No se envían ni persisten en un servidor.</div>
     <div className="mb-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <Metric icon={<CalendarClock size={19} />} label="Turnos de hoy" value={String(todays.length)} caption="en la agenda" tone="green" />
