@@ -3,7 +3,7 @@ import { CalendarPlus, ChevronDown, ChevronLeft, ChevronRight, Clock3, Pencil, X
 import type { Appointment, Patient } from "../types";
 import { formatDate, getAppointmentsForDate } from "../services/demoService";
 import { todayKey } from "../data/demoData";
-import { AppointmentBadge, EmptyBlock } from "./DashboardPage";
+import { AppointmentBadge } from "./DashboardPage";
 import { Button, Card, PageTitle } from "../components/ui";
 
 const plusDays = (key: string, amount: number) => { const date = new Date(key + "T12:00:00"); date.setDate(date.getDate() + amount); return [date.getFullYear(), String(date.getMonth()+1).padStart(2,"0"), String(date.getDate()).padStart(2,"0")].join("-"); };
