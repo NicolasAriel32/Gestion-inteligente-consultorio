@@ -21,7 +21,7 @@ export function WorkspaceShell({ section, onNavigate, onOpenPublic, children }: 
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-sage/35 text-sm font-semibold text-deep">MR</span>
         <span className="min-w-0 flex-1"><strong className="block text-sm">Consultorio</strong><small className="mt-1 block text-xs text-muted">Espacio de trabajo demo</small></span><ChevronDown size={16} className="text-muted" />
       </button>
-      <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[.14em] text-[#81908a]">Menú principal</p>
+      <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[.14em] text-[#52645a]">Menú principal</p>
       <nav aria-label="Menú principal" className="grid gap-1">
         {navigation.map(({ id, label, icon: Icon }) => <button key={id} onClick={() => onNavigate(id)} aria-current={section === id ? "page" : undefined} className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep ${section === id ? "bg-[#e9f0ec] font-semibold text-deep" : "text-[#65736d] hover:bg-ivory"}`}>
           <Icon size={19} strokeWidth={1.8} /><span>{label}</span>
