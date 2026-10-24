@@ -1,12 +1,12 @@
 # Gestión Inteligente Consultorio
 
-Prototipo comercial para consultorios de psicología. Esta primera versión se enfoca en organizar la agenda, administrar datos básicos de pacientes y recibir solicitudes de turnos online.
+Prototipo comercial para consultorios de psicología. Esta primera versión presenta la agenda, administra datos básicos de pacientes y permite simular una solicitud de turno online. La reserva pública real todavía no está conectada.
 
 ## Alcance del MVP
 
 - Agenda diaria con turnos y estados.
 - Fichas administrativas mínimas de pacientes.
-- Solicitud pública de turnos con disponibilidad de ejemplo.
+- Flujo de solicitud de turnos online simulado con disponibilidad de ejemplo.
 - Datos de demostración ficticios y persistencia en el navegador.
 
 No incluye historias clínicas, diagnósticos, notas de sesión, pagos ni teleconsultas. No cargues datos reales de pacientes: la demo guarda su información en el almacenamiento local del navegador y no cuenta con servidor, autenticación ni sincronización.
