@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CalendarDays, Check, Clock3, Copy, Link2, MapPin, MonitorPlay, Save, ShieldCheck } from "lucide-react";
+import { CalendarDays, Clock3, Copy, Link2, MapPin, MonitorPlay, Save, ShieldCheck } from "lucide-react";
 import type { Modality, ProfessionalSettings } from "../types";
 import { Button, Card, Field, PageTitle } from "../components/ui";
 
