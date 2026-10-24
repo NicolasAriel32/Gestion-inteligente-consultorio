@@ -22,7 +22,7 @@ export function DashboardPage({ appointments, patients, onGoAgenda, onNewAppoint
     <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.6fr)_minmax(290px,.8fr)]">
       <Card className="overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-5 sm:px-6">
-          <div><p className="text-xs font-semibold uppercase tracking-[.14em] text-deep/70">Agenda del día</p><h2 className="mt-1 font-display text-xl font-semibold">Próximas sesiones</h2></div>
+          <div><p className="text-xs font-semibold uppercase tracking-[.14em] text-deep">Agenda del día</p><h2 className="mt-1 font-display text-xl font-semibold">Próximas sesiones</h2></div>
           <Button variant="secondary" size="sm" onClick={onGoAgenda}>Ver agenda <ArrowRight size={15} /></Button>
         </div>
         {upcoming.length ? <div className="divide-y divide-line">{upcoming.map((item) => <div key={item.id} className="flex flex-wrap items-center gap-3 px-5 py-4 sm:px-6">
@@ -33,7 +33,7 @@ export function DashboardPage({ appointments, patients, onGoAgenda, onNewAppoint
         </div>)}</div> : <EmptyBlock title="Todavía no hay turnos" detail="Agendá una sesión o revisá la página pública de reservas." action={<Button variant="secondary" size="sm" onClick={onNewAppointment}>Crear turno</Button>} />}
       </Card>
       <div className="grid gap-5">
-        <Card className="p-5 sm:p-6"><div className="mb-4 flex items-center justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.14em] text-deep/70">Solicitudes</p><h2 className="mt-1 font-display text-xl font-semibold">Pendientes</h2></div><Badge tone={pending.length ? "amber" : "green"}>{pending.length ? `${pending.length} nueva` : "Al día"}</Badge></div>
+        <Card className="p-5 sm:p-6"><div className="mb-4 flex items-center justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.14em] text-deep">Solicitudes</p><h2 className="mt-1 font-display text-xl font-semibold">Pendientes</h2></div><Badge tone={pending.length ? "amber" : "green"}>{pending.length ? `${pending.length} nueva` : "Al día"}</Badge></div>
           {pending.length ? pending.slice(0, 3).map((item) => <div key={item.id} className="border-t border-line py-3"><div className="flex items-center justify-between gap-3"><div><strong className="text-sm">{patientName(item.patientId)}</strong><p className="mt-1 text-xs text-muted">{formatDate(item.date)} · {item.startTime}</p></div><Button variant="ghost" size="sm" onClick={() => onConfirm(item.id)} aria-label={`Confirmar turno de ${patientName(item.patientId)}`}><CheckCircle2 size={18} /></Button></div></div>) : <p className="border-t border-line pt-4 text-sm text-muted">Cuando llegue una solicitud, aparecerá acá para que la revises.</p>}
         </Card>
         <Card className="bg-[#f5f1e9] p-5 sm:p-6"><span className="grid h-10 w-10 place-items-center rounded-xl bg-white text-deep"><CalendarPlus size={19} /></span><h2 className="mt-4 font-display text-lg font-semibold">Tu enlace de reservas</h2><p className="mt-2 text-sm leading-6 text-muted">Mostrale a un paciente cómo sería solicitar un horario desde la página pública.</p><Button variant="secondary" className="mt-4 w-full" onClick={onOpenPublic}>Abrir vista previa <ArrowRight size={15} /></Button></Card>
