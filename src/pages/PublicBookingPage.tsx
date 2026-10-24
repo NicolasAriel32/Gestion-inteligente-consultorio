@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { Activity, ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, Clock3, MapPin, MonitorPlay, ShieldCheck } from "lucide-react";
+import { Activity, ArrowLeft, ArrowRight, CheckCircle2, Clock3, MapPin, MonitorPlay, ShieldCheck } from "lucide-react";
 import type { AvailabilityEntry, ProfessionalSettings } from "../types";
 import { getAvailableSlots, formatDate } from "../services/demoService";
 import { todayKey } from "../data/demoData";
