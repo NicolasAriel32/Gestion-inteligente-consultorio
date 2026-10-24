@@ -58,7 +58,7 @@ export function Modal({ open, onOpenChange, title, description, children, classN
 }
 export function PageTitle({ eyebrow, title, description, action }: { eyebrow: string; title: string; description: string; action?: ReactNode }) {
   return <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-    <div><p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-deep/75">{eyebrow}</p><h1 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{title}</h1><p className="mt-2 max-w-2xl text-sm text-muted">{description}</p></div>
+    <div><p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-deep">{eyebrow}</p><h1 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{title}</h1><p className="mt-2 max-w-2xl text-sm text-muted">{description}</p></div>
     {action}
   </div>;
 }
