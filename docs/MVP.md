@@ -12,7 +12,7 @@ Centralizar en una vista simple los próximos turnos, los datos administrativos 
 
 1. **Agenda:** vista diaria, navegación entre días y turnos con hora, modalidad, tipo y estado.
 2. **Pacientes:** búsqueda por nombre o email, datos de contacto y próximo turno.
-3. **Reservas online:** vista previa de una página pública y formulario de solicitud. Las solicitudes quedan pendientes hasta una confirmación humana.
+3. **Reservas online:** vista previa de una futura página pública y formulario de solicitud simulado dentro del prototipo. Las solicitudes quedan pendientes hasta una confirmación humana.
 4. **Persistencia de demo:** los turnos agregados se guardan en el almacenamiento local del navegador actual.
 5. **Diseño adaptable:** interfaz de escritorio y navegación móvil.
 
@@ -20,7 +20,7 @@ Centralizar en una vista simple los próximos turnos, los datos administrativos 
 
 - Se puede navegar entre Inicio, Agenda, Pacientes y Reservas online.
 - Se puede crear un turno desde la agenda con nombre, tipo, fecha y horario.
-- En la vista de reservas se puede enviar una solicitud y verla como pendiente.
+- En la vista de reservas se puede simular una solicitud y verla como pendiente.
 - Una solicitud nueva también aparece en el directorio de pacientes.
 - El buscador filtra los pacientes por nombre o correo electrónico.
 - Los turnos creados permanecen en el mismo navegador después de recargar.
@@ -31,6 +31,7 @@ Centralizar en una vista simple los próximos turnos, los datos administrativos 
 - Historia clínica, diagnósticos, notas de sesión, evaluaciones, tratamientos y recetas.
 - Pagos, facturación, videollamadas e integración con WhatsApp.
 - Inicio de sesión, roles, base de datos remota y sincronización entre dispositivos.
+- Publicación de una página pública real para reservas; el enlace de la demo no acepta solicitudes externas.
 - Confirmación automática de solicitudes.
 
 ## Límites de seguridad del prototipo
