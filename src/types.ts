@@ -12,7 +12,7 @@ export type Appointment = {
   status: AppointmentStatus;
   source: "Panel" | "Reserva pública";
 };
-export type AvailabilityEntry = Pick<Appointment, "date" | "startTime" | "durationMinutes" | "status">;
+export type AvailabilityEntry = Pick<Appointment, "date" | "startTime" | "durationMinutes" | "status"> & Partial<Pick<Appointment, "id">>;
 export type Patient = {
   id: string;
   name: string;
