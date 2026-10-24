@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, HTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
 import { cn } from "../lib/utils";
 
 const buttonVariants = cva("inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50", {
@@ -33,7 +33,7 @@ export function Badge({ className, tone = "neutral", children }: { className?: s
   };
   return <span className={cn("inline-flex min-h-7 items-center rounded-full px-2.5 text-xs font-medium", tones[tone], className)}>{children}</span>;
 }
-export function Field({ label, hint, error, className, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string; error?: string }) {
+export function Field({ label, hint, error, className, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string; error?: string }) {
   const id = props.id || props.name || label.toLowerCase().replaceAll(" ", "-");
   return <label className={cn("grid gap-2 text-sm font-medium text-ink", className)} htmlFor={id}>
     {label}
