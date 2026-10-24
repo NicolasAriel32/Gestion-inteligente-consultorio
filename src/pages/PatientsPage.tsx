@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Mail, Phone, Search, UserRound, X } from "lucide-react";
 import type { Appointment, Patient } from "../types";
 import { formatDate } from "../services/demoService";
