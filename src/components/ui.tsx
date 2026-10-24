@@ -34,7 +34,7 @@ export function Badge({ className, tone = "neutral", children }: { className?: s
   return <span className={cn("inline-flex min-h-7 items-center rounded-full px-2.5 text-xs font-medium", tones[tone], className)}>{children}</span>;
 }
 export function Field({ label, hint, error, className, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string; error?: string }) {
-  const id = props.id || props.name || label.toLowerCase().replaceAll(" ", "-");
+  const id = props.id || props.name || label.toLowerCase().replace(/ /g, "-");
   return <label className={cn("grid gap-2 text-sm font-medium text-ink", className)} htmlFor={id}>
     {label}
     <input {...props} id={id} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined} className="h-11 w-full rounded-xl border border-line bg-white px-3.5 text-sm font-normal text-ink placeholder:text-[#8b9691] focus:border-deep focus:outline-none focus:ring-2 focus:ring-sage/60" />
