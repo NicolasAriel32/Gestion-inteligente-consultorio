@@ -1,6 +1,7 @@
-import type { Appointment, AppointmentStatus, AvailabilityEntry, Patient, ProfessionalSettings } from "../types";
+import type { Appointment, AppointmentStatus, AppointmentSeries, AvailabilityEntry, Patient, ProfessionalSettings } from "../types";
 
 export type DemoState = {
+  series?: AppointmentSeries[];
   patients: Patient[];
   appointments: Appointment[];
   professional: ProfessionalSettings;

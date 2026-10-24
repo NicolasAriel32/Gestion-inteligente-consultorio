@@ -4,6 +4,8 @@ export type Modality = "Presencial" | "Virtual";
 export type Appointment = {
   id: string;
   patientId: string;
+  seriesId?: string;
+  occurrenceIndex?: number;
   date: string;
   startTime: string;
   durationMinutes: number;
@@ -31,3 +33,5 @@ export type ProfessionalSettings = {
   workingDays: number[];
   workingHours: string[];
 };
+
+export type AppointmentSeries = { id: string; anchorDate: string; intervalWeeks: number; count: number; timeZone: "America/Argentina/Buenos_Aires" };

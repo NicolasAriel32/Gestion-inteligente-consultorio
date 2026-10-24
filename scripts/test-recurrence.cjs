@@ -1,0 +1,16 @@
+const fs = require('node:fs');
+const ts = require('typescript');
+require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'), { compilerOptions: { module:ts.ModuleKind.CommonJS, target:ts.ScriptTarget.ES2020 } }).outputText, filename);
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { planSeries, applySeries } = require('../src/services/recurrence.ts');
+const { saveDemoAppointment, getAvailableSlots } = require('../src/services/demoService.ts');
+const base={id:'a',patientId:'p',date:'2026-12-29',startTime:'18:00',durationMinutes:50,status:'confirmado',modality:'Virtual',service:'Sesión',source:'Panel'};
+test('weekly series crosses year preserving weekday and hour',()=>{const p=planSeries(base,1,3,[]);assert.deepEqual(p.appointments.map(x=>x.date),['2026-12-29','2027-01-05','2027-01-12']);assert.ok(p.appointments.every(x=>x.startTime==='18:00'));});
+test('fortnightly leap-year calendar arithmetic',()=>{assert.deepEqual(planSeries({...base,date:'2028-02-22'},2,3,[]).appointments.map(x=>x.date),['2028-02-22','2028-03-07','2028-03-21']);});
+test('later occurrence conflict is detected and entire batch rejected without mutation',()=>{const existing=[{...base,id:'occupied',date:'2027-01-05',startTime:'18:30'}];const p=planSeries(base,1,3,existing);assert.deepEqual(p.conflicts,['2027-01-05']);assert.throws(()=>applySeries(existing,p));assert.equal(existing.length,1);});
+test('cancelled appointment does not block and adjacent sessions are permitted',()=>{const p=planSeries(base,1,2,[{...base,id:'cancel',status:'cancelado'},{...base,id:'adjacent',startTime:'18:50'}]);assert.equal(p.conflicts.length,0);});
+test('series and occurrences have stable distinct links',()=>{const p=planSeries(base,1,3,[]);assert.equal(new Set(p.appointments.map(x=>x.id)).size,3);assert.ok(p.appointments.every(x=>x.seriesId===p.series.id));assert.deepEqual(p.appointments.map(x=>x.occurrenceIndex),[0,1,2]);});
+test('editing one occurrence frees prior slot while preserving siblings and duration',()=>{const p=planSeries(base,1,3,[]);const old=p.appointments;const updated=saveDemoAppointment({patients:[],professional:{},appointments:old},{...old[1],startTime:'19:00'});assert.equal(updated.appointments.find(x=>x.id===old[0].id).startTime,'18:00');assert.equal(updated.appointments.find(x=>x.id===old[1].id).durationMinutes,50);const settings={workingDays:[2],workingHours:['18:00','19:00'],sessionDuration:50};assert.deepEqual(getAvailableSlots(settings,updated.appointments,'2027-01-05'),['18:00']);assert.equal(old[1].startTime,'18:00');});
+test('invalid recurrence values and impossible dates rejected',()=>{for(const [interval,count] of [[0,3],[3,3],[1,0],[1,25],[1,2.5],[1,NaN]])assert.throws(()=>planSeries(base,interval,count,[]));assert.throws(()=>planSeries({...base,date:'2026-02-30'},1,3,[]));});
+test('batch revalidates availability against changed current state',()=>{const p=planSeries(base,1,3,[]);assert.throws(()=>applySeries([{...base,id:'new-conflict',date:'2027-01-12'}],p));});

@@ -46,3 +46,13 @@ La configuración de Vercel reescribe `/reservar/*` hacia la aplicación estáti
 3. **Demo comercial:** publicación controlada y validación desde dos dispositivos.
 
 No avanzar con backend productivo hasta aprobar el diseño de esta fase.
+
+## Horarios habituales
+
+Desde Nuevo turno se puede previsualizar una serie semanal o quincenal de 2 a 24 sesiones. Los conflictos bloquean el lote completo; editar una cita modifica solo esa sesión. Demo en memoria.
+
+- [Especificación propia](docs/RECURRING_APPOINTMENTS.md)
+- [Informe de investigación y limitación de REA](docs/research/REA_CAL_REPORT.md)
+- [Dos revisiones y resultados](docs/research/RECURRENCE_VERIFICATION.md)
+
+Pruebas: `npm run test:recurrence`.
