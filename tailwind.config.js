@@ -9,7 +9,7 @@ export default {
         sage: "#A7C2B6",
         ivory: "#F7F8F5",
         sand: "#E8D6C7",
-        muted: "#71807A",
+        muted: "#65736D",
         line: "#E5EAE6",
       },
       fontFamily: {
