@@ -1,16 +1,14 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { Activity, ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, Clock3, MapPin, MonitorPlay, ShieldCheck } from "lucide-react";
-import type { Appointment, ProfessionalSettings } from "../types";
-import type { DemoState } from "../services/demoService";
+import type { AvailabilityEntry, ProfessionalSettings } from "../types";
 import { getAvailableSlots, formatDate } from "../services/demoService";
 import { todayKey } from "../data/demoData";
 import { Button, Card, Field } from "../components/ui";
 
 const shift = (key: string, amount: number) => { const date = new Date(key + "T12:00:00"); date.setDate(date.getDate()+amount); return [date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-"); };
 
-export function PublicBookingPage({ settings, appointments, onBack, onRequest }: { settings: ProfessionalSettings; appointments: Appointment[]; onBack: () => void; onRequest: (data: { name: string; email: string; phone: string; date: string; time: string; modality: "Presencial" | "Virtual"; service: string }) => void }) {
-  const state: DemoState = { patients: [], appointments, professional: settings };
+export function PublicBookingPage({ settings, busySlots, onBack, onRequest }: { settings: ProfessionalSettings; busySlots: AvailabilityEntry[]; onBack: () => void; onRequest: (data: { name: string; email: string; phone: string; date: string; time: string; modality: "Presencial" | "Virtual"; service: string }) => void }) {
   const dates = useMemo(() => Array.from({length: 14}, (_, index) => shift(todayKey,index)).filter((date) => settings.workingDays.includes(new Date(date+"T12:00:00").getDay())), [settings.workingDays]);
   const [date,setDate] = useState(dates[0] || todayKey);
   const [time,setTime] = useState("");
@@ -21,11 +19,11 @@ export function PublicBookingPage({ settings, appointments, onBack, onRequest }:
   const [phone,setPhone] = useState("");
   const [error,setError] = useState("");
   const [success,setSuccess] = useState(false);
-  const slots = getAvailableSlots(state,date);
+  const slots = getAvailableSlots(settings,busySlots,date);
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!name.trim() || !email.trim() || !time) { setError("Completá tus datos y elegí un horario disponible."); return; }
-    if (appointments.some((item) => item.date === date && item.startTime === time && item.status !== "cancelado")) { setError("Ese horario acaba de ocuparse en esta demo. Elegí otro."); setTime(""); return; }
+    if (busySlots.some((item) => item.date === date && item.startTime === time && item.status !== "cancelado")) { setError("Ese horario acaba de ocuparse en esta demo. Elegí otro."); setTime(""); return; }
     onRequest({ name:name.trim(), email:email.trim(), phone:phone.trim(), date, time, modality, service });
     setSuccess(true);
     setError("");
