@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import type { FormEvent, ReactNode } from "react";
 import {
   Activity,
-  ArrowDownRight,
-  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Bell,
@@ -15,11 +14,9 @@ import {
   Clock3,
   Copy,
   ExternalLink,
-  FileText,
   Filter,
   LayoutDashboard,
   Link2,
-  Menu,
   MoreHorizontal,
   Plus,
   Search,
@@ -48,11 +45,6 @@ type Appointment = {
 const today = new Date();
 const dateKey = (date: Date) =>
   [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
-const shiftDate = (base: Date, days: number) => {
-  const result = new Date(base);
-  result.setDate(result.getDate() + days);
-  return dateKey(result);
-};
 const prettyDate = (value: string, options: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat("es-AR", options).format(new Date(value + "T12:00:00"));
 const dateLabel = (value: string) =>
@@ -131,9 +123,9 @@ function App() {
 
   const copyBookingLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.origin + "/reservar");
+      await navigator.clipboard.writeText(window.location.origin);
       setCopied(true);
-      setToast("Enlace de reservas copiado.");
+      setToast("Copiaste el enlace de la demo; las reservas aún no son públicas.");
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
       setToast("Podés compartir el enlace desde la barra del navegador.");
@@ -195,7 +187,7 @@ function App() {
   );
 }
 
-function PageHeading({ eyebrow, title, subtitle, action }: { eyebrow: string; title: string; subtitle: string; action?: React.ReactNode }) {
+function PageHeading({ eyebrow, title, subtitle, action }: { eyebrow: string; title: string; subtitle: string; action?: ReactNode }) {
   return <div className="page-heading"><div><div className="eyebrow">{eyebrow}</div><h1>{title}</h1><p>{subtitle}</p></div>{action}</div>;
 }
 
@@ -212,10 +204,10 @@ function Dashboard({ appointments, selectedDate, setDate, openAppointment, goTo 
   const pending = appointments.filter((item) => item.status === "Pendiente").length;
   return (
     <div className="content">
-      <PageHeading eyebrow="VIERNES, 24 DE OCTUBRE" title="Buen día, Martina" subtitle="Este es el resumen de tu consultorio para hoy." action={<button className="button-primary" onClick={openAppointment}><Plus size={17} /> Nuevo turno</button>} />
+      <PageHeading eyebrow={prettyDate(selectedDate, { weekday: "long", day: "numeric", month: "long" }).toUpperCase()} title="Buen día, Martina" subtitle="Este es el resumen de tu consultorio para hoy." action={<button className="button-primary" onClick={openAppointment}><Plus size={17} /> Nuevo turno</button>} />
       <div className="stats-grid">
-        <StatCard label="Turnos de hoy" value={String(appointments.length).padStart(2, "0")} note="en tu agenda" icon={<CalendarDays size={18} />} color="green" trend="4 confirmados" />
-        <StatCard label="Solicitudes online" value={String(pending || 2).padStart(2, "0")} note="requieren tu atención" icon={<Clock3 size={18} />} color="orange" trend="Ver solicitudes" onClick={() => goTo("reservas")} />
+        <StatCard label="Turnos del día" value={String(appointments.length).padStart(2, "0")} note="en tu agenda" icon={<CalendarDays size={18} />} color="green" trend="4 confirmados" />
+        <StatCard label="Solicitudes online" value={String(pending).padStart(2, "0")} note="requieren tu atención" icon={<Clock3 size={18} />} color="orange" trend="Ver solicitudes" onClick={() => goTo("reservas")} />
         <StatCard label="Pacientes activos" value="38" note="en tu consultorio" icon={<UsersRound size={18} />} color="purple" trend="+3 este mes" />
         <StatCard label="Disponibilidad" value="Abierta" note="reservas online" icon={<Activity size={18} />} color="blue" trend="Configurar" onClick={() => goTo("reservas")} />
       </div>
@@ -258,7 +250,7 @@ function Dashboard({ appointments, selectedDate, setDate, openAppointment, goTo 
   );
 }
 
-function StatCard({ label, value, note, icon, color, trend, onClick }: { label: string; value: string; note: string; icon: React.ReactNode; color: string; trend: string; onClick?: () => void }) {
+function StatCard({ label, value, note, icon, color, trend, onClick }: { label: string; value: string; note: string; icon: ReactNode; color: string; trend: string; onClick?: () => void }) {
   return <button className={`stat-card ${onClick ? "clickable" : ""}`} onClick={onClick}><div className="stat-top"><span>{label}</span><span className={`stat-icon ${color}`}>{icon}</span></div><div className="stat-value">{value}</div><div className="stat-bottom"><span>{note}</span><span className={`stat-trend ${color}`}>{color === "green" ? <ArrowUpRight size={13} /> : null}{trend}</span></div></button>;
 }
 
@@ -310,7 +302,7 @@ function Bookings({ enabled, setEnabled, onCopy, copied, openBooking, appointmen
       <div className="booking-main">
         <section className="panel booking-status">
           <div className="booking-status-top"><div className="status-icon"><Link2 size={20} /></div><div className="booking-status-copy"><h2>Tu página de reservas</h2><p>{enabled ? "Las personas pueden consultar horarios y solicitar un turno." : "La página está pausada y no acepta nuevas solicitudes."}</p></div><button className={`switch ${enabled ? "on" : ""}`} onClick={() => setEnabled(!enabled)} role="switch" aria-checked={enabled} aria-label="Activar reservas online"><span /></button></div>
-          <div className="booking-url"><div><span>ENLACE DE RESERVA</span><strong>gestioninteligente.app/martina-rios</strong></div><button className="button-light" onClick={onCopy}><Copy size={15} />{copied ? "Copiado" : "Copiar enlace"}</button></div>
+          <div className="booking-url"><div><span>ENLACE DE RESERVA</span><strong>Vista de demostración · no publicada</strong></div><button className="button-light" onClick={onCopy}><Copy size={15} />{copied ? "Copiado" : "Copiar enlace"}</button></div>
           <div className="booking-hint"><ShieldCheck size={15} /><span>Las solicitudes llegan como pendientes. Vos confirmás cada turno desde tu agenda.</span></div>
         </section>
         <section className="panel online-requests">
@@ -339,7 +331,7 @@ function AppointmentModal({ mode, onClose, onSave }: { mode: "appointment" | "bo
   const [date, setDate] = useState(todayKey);
   const [kind, setKind] = useState("Sesión individual");
   const slots = ["09:00", "10:00", "11:30", "14:00", "15:30", "17:00"];
-  const submit = (event: React.FormEvent) => {
+  const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!name.trim() || !selectedTime) return;
     onSave({
