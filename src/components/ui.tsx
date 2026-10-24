@@ -62,3 +62,13 @@ export function PageTitle({ eyebrow, title, description, action }: { eyebrow: st
     {action}
   </div>;
 }
+
+
+export function LoadingState() {
+  return <div role="status" aria-live="polite" className="space-y-5">
+    <span className="sr-only">Preparando la vista de demostración</span>
+    <div className="h-9 w-64 animate-pulse rounded-lg bg-sage/35" />
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[1,2,3,4].map((item)=><div key={item} className="h-32 animate-pulse rounded-2xl border border-line bg-white" />)}</div>
+    <div className="h-72 animate-pulse rounded-2xl border border-line bg-white" />
+  </div>;
+}
