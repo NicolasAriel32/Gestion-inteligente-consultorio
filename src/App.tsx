@@ -5,7 +5,7 @@ import { demoAppointments, demoPatients, demoProfessional, todayKey } from "./da
 import { saveDemoAppointment, setDemoStatus, updateDemoSettings, validateAppointment, type DemoState } from "./services/demoService";
 import type { Appointment, Patient, Section } from "./types";
 import { WorkspaceShell } from "./components/WorkspaceShell";
-import { Button, Field, Modal } from "./components/ui";
+import { Button, Field, LoadingState, Modal } from "./components/ui";
 import { DashboardPage } from "./pages/DashboardPage";
 import { AgendaPage } from "./pages/AgendaPage";
 import { PatientsPage } from "./pages/PatientsPage";
@@ -16,11 +16,16 @@ const initialDemo: DemoState = { patients: demoPatients, appointments: demoAppoi
 
 export default function App() {
   const [data, setData] = useState<DemoState>(initialDemo);
+  const [booting, setBooting] = useState(true);
   const [section, setSection] = useState<Section>("dashboard");
   const [publicPage, setPublicPage] = useState(() => window.location.pathname.startsWith("/reservar"));
   const [appointmentDialog, setAppointmentDialog] = useState<{ open: boolean; appointment?: Appointment; date?: string }>({ open: false });
   const [toast, setToast] = useState<{ kind: "success" | "error"; message: string } | null>(null);
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => setBooting(false), 280);
+    return () => window.clearTimeout(timer);
+  }, []);
   useEffect(() => {
     const syncRoute = () => setPublicPage(window.location.pathname.startsWith("/reservar"));
     window.addEventListener("popstate", syncRoute);
@@ -78,12 +83,14 @@ export default function App() {
   if (publicPage) return <PublicBookingPage settings={data.professional} appointments={data.appointments} onBack={backToPanel} onRequest={requestPublicAppointment} />;
 
   return <WorkspaceShell section={section} onNavigate={setSection} onOpenPublic={openPublic}>
+    {booting ? <LoadingState /> : <>
     {section === "dashboard" && <DashboardPage appointments={data.appointments} patients={data.patients} onGoAgenda={() => setSection("agenda")} onNewAppointment={() => setAppointmentDialog({ open: true })} onOpenPublic={openPublic} onConfirm={confirmAppointment} />}
     {section === "agenda" && <AgendaPage appointments={data.appointments} patients={data.patients} onNew={(date) => setAppointmentDialog({ open: true, date })} onEdit={(appointment) => setAppointmentDialog({ open: true, appointment })} onCancel={cancelAppointment} />}
     {section === "pacientes" && <PatientsPage patients={data.patients} appointments={data.appointments} onCreate={createPatient} />}
     {section === "configuracion" && <SettingsPage settings={data.professional} onSave={(professional) => { setData((current) => updateDemoSettings(current, professional)); setToast({ kind: "success", message: "Configuración actualizada en esta demo." }); }} onPublic={openPublic} />}
     <AppointmentDialog open={appointmentDialog.open} appointment={appointmentDialog.appointment} date={appointmentDialog.date} data={data} onClose={() => setAppointmentDialog({ open: false })} onSave={saveAppointment} />
     {toast && <div role={toast.kind === "error" ? "alert" : "status"} className={`fixed bottom-20 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-xl bg-ink px-4 py-3 text-sm text-white shadow-soft lg:bottom-6 ${toast.kind === "error" ? "bg-[#8a4039]" : ""}`}><CheckCircle2 size={17} />{toast.message}</div>}
+    </>}
   </WorkspaceShell>;
 }
 
