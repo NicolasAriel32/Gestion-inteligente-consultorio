@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/reservar/:path*", "destination": "/" }
+  ]
+}
